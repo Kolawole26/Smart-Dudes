@@ -117,7 +117,7 @@ export default {
     let canClick = true;
     let questionCounter = ref(0);
     let score = ref(0);
-    let timer = 60
+    let timer = 300
     let minuteTime = ref("")
     let secondTime = ref("")
     const answer = ref("")
