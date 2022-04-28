@@ -1,5 +1,5 @@
 <script >
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { mapActions } from 'vuex';
   export default {
     data() {
@@ -39,9 +39,7 @@ import { mapActions } from 'vuex';
           
         }
     },
-    // created() {
-    //   this.fetchQuestions();
-    // },
+    
 
     
      

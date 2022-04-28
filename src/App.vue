@@ -1,7 +1,5 @@
 <script >
-import HomeView from './views/HomeView.vue';
-import GamePlayView from './views/GamePlayView.vue';
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   methods:{
       ...mapActions(['fetchQuestionSport','fetchQuestionMovies', 'fetchQuestionMusic', 'fetchQuestionBooks' ]),
@@ -22,9 +20,7 @@ export default {
 <template>
 
 
-  <RouterView>
-   
-  </RouterView>
+  <RouterView></RouterView>
   
 </template>
 

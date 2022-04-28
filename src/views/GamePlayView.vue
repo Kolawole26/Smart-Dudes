@@ -2,10 +2,7 @@
   
   <div class=" relative">
 
-  <GamePlay1
-    v-if="incorrectAnswer"
-    :answer="currentQuestion.answer"
-  ></GamePlay1>
+  <GamePlay1 v-if="incorrectAnswer" :answer="answer"></GamePlay1>
   <GameEnd v-if="endofQuiz" :percent="percentageScore"></GameEnd>
   <div class="bg-pink lg:pb-28 pb-7 lg:px-24 px-9 ">
     <div class="flex justify-between items-center pt-5">
@@ -106,26 +103,13 @@
 </style>
 
 <script>
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import GamePlay1 from "../components/GamePlay1.vue";
 import GameEnd from "../components/GameEnd.vue";
-import router from "../router";
-import { useRouter, useRoute } from 'vue-router'
-import { mapActions, mapGetters } from "vuex";
-import { useStore } from "vuex";
 import store from "../store";
 export default {
 
-methods:{
-      ...mapActions(['fetchQuestionSport']),
-      ...mapActions(['fetchQuestionMovies'])
-    },
-    // created() {
-      
-    //   this.fetchQuestionSport();
-    //   this.fetchQuestionMovies();
-    // },
-    
+
     
 
   setup() {
@@ -134,14 +118,9 @@ methods:{
     let questionCounter = ref(0);
     let score = ref(0);
     let timer = 60
-     let minuteTime = ref("")
-      let secondTime = ref("")
-      let answer = ""
-      let sport = "Sports"
-      
-      
-      
-    
+    let minuteTime = ref("")
+    let secondTime = ref("")
+    const answer = ref("")
     let incorrectAnswer = ref(false);
     let endofQuiz = ref(false);
     const currentQuestion = ref({
@@ -160,39 +139,27 @@ methods:{
       //check if there are more questions to load
 
       if (questions.value.length > questionCounter.value) {
-      
-        
-        
+    
         //load questions
         currentQuestion.value = questions.value[questionCounter.value];
-        console.log("display>>>>>", currentQuestion.value.choices)
-        
         questionCounter.value++;
-        console.log("current questions", currentQuestion.value);
+        
       } else {
         //no more questions
-        // incorrectAnswer.value = true;
+        
         onQuizEnd();
-        console.log("out of questions");
       }
     };
     const clearSelected = (divSelected) => {
       
       divSelected.classList.add("option-default");
+      divSelected.classList.remove("btn");
+     
 
       setTimeout(() => {
-        // if (currentQuestion.value.answer == optionID) {
-        //   console.log("you are correct");
-        //   divContainer.classList.remove("option-default")
-        //   score.value += 10;
-        // } else {
-        //   console.log("you are wrong");
-          
-        //   currentQuestion.value = questions[questionCounter.value];
-        //   incorrectAnswer.value = true;
-        //   divContainer.classList.remove("option-default")
-        // }
+       
         loadQuestion();
+         divSelected.classList.add("btn");
       }, 1000);
     };
     //methods/functions
@@ -206,43 +173,32 @@ methods:{
       const divContainer = itemsRef[item];
       if (canClick) {
         //Todo select an option
+        
         const optionID = item + 1;
         if (currentQuestion.value.answer == optionID) {
-          console.log("you are correct");
+         //correct answer
           divContainer.classList.remove("option-default")
           score.value += 10;
           clearSelected(divContainer);
         } else {
-          console.log("you are wrong");
+          //Wrong answer
           incorrectAnswer.value = true;
-          const ans = currentQuestion.value.choices[currentQuestion.value.answer--]
-          const a = ans;
-        console.log("ans>>>>>", a) 
+          answer.value = currentQuestion.value.choices[currentQuestion.value.answer - 1]
+           
           divContainer.classList.remove("option-default")
         }
         canClick = false;
         //Todo go to next question 
          
-        console.log(choice, item);
+        console.log(choice)
       } else {
         //cant select an option
-        console.log("can't select question");
+      
       }
     };
     const countDownTimer = function () {
-      
-      
 
       let interval = setInterval(() => {
-      
-      // const newYearsDate = new Date(newYears);
-      // const currentDate = new Date();
-      // const totalSeconds = (newYearsDate.getTime() - currentDate.getTime() / 1000);
-      //  const mins = Math.floor(totalSeconds / 60) % 60;
-      // const sec = Math.floor(totalSeconds) % 60;
-      // minuteTime.value = setTime(mins)
-      // secondTime.value = setTime(sec)
-      // console.log("secondTime>>>>", secondTime)
 
       const mins = Math.floor(timer / 60) % 60;
       const sec = Math.floor(timer) % 60;
@@ -253,7 +209,7 @@ methods:{
         if (timer > 0) {
           timer--
         } else {
-          console.log("timer is up");
+          
           onQuizEnd();
           clearInterval(interval);
         }
@@ -279,9 +235,7 @@ methods:{
               choices: "",
               answer: "",
             };
-            console.log("serverQuestion>>>>>>>",serverQuestion.category)
-            // answer = serverQuestion.correct_answer
-            // console.log("answer>>>>>>>>111", answer)
+            
             
             const choices = serverQuestion.incorrect_answers;
             arrangedQuestion.answer = Math.floor(Math.random() * 4 + 1);
@@ -293,11 +247,10 @@ methods:{
             arrangedQuestion.choices = choices;
             return arrangedQuestion;
           });
-          console.log("new formatted questions", newQuestions);
+          
           
           questions.value = newQuestions;
-          console.log("questions>>>>>>>11111", questions.value[1]);
-          console.log("current questions>>>>>>>", currentQuestion.value);
+          
           loadQuestion();
           countDownTimer();
         
@@ -333,7 +286,7 @@ methods:{
       minuteTime,
       secondTime,
       timer,
-      sport,
+      answer,
       optionChosen,
       loadQuestion,
       onOptionClicked,

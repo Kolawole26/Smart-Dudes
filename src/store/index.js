@@ -15,10 +15,9 @@ export default createStore({
     },
     actions: {
         async fetchQuestionSport({commit}) {
-            const response = await axios.get('https://opentdb.com/api.php?amount=10&category=21');
+            const response = await axios.get('https://opentdb.com/api.php?amount=10&category=21&type=multiple');
 
             commit('setQuestionsSport', response.data)
-            console.log('response>>>>', response.data)
             
             
         },
@@ -26,7 +25,6 @@ export default createStore({
             const response = await axios.get('https://opentdb.com/api.php?amount=10&category=11&type=multiple');
 
             commit('setQuestionsMovies', response.data)
-            console.log('response>>>>', response.data)
             
             
         },
@@ -34,7 +32,6 @@ export default createStore({
             const response = await axios.get('https://opentdb.com/api.php?amount=10&category=12&type=multiple');
 
             commit('setQuestionsMusic', response.data)
-            console.log('response>>>>', response.data)
             
             
         },
@@ -42,7 +39,6 @@ export default createStore({
             const response = await axios.get('https://opentdb.com/api.php?amount=10&category=10&type=multiple');
 
             commit('setQuestionsBooks', response.data)
-            console.log('response>>>>', response.data)
             
             
         },
