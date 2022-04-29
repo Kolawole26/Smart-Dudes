@@ -2,7 +2,7 @@
   
   <div class=" relative">
 
-  <GamePlay1 v-if="incorrectAnswer" :answer="answer"></GamePlay1>
+  <GamePlay1 v-if="incorrectAnswer" :answer="answer " :percent="percentageScore"></GamePlay1>
   <GameEnd v-if="endofQuiz" :percent="percentageScore"></GameEnd>
   <div class="bg-pink lg:pb-28 pb-7 lg:px-24 px-9 ">
     <div class="flex justify-between items-center pt-5">
@@ -67,7 +67,7 @@
               rounded-2xl
               max-w-xl
               mx-auto
-              btn
+              
               option-default
               mb-10
               lg:mb-0
@@ -117,7 +117,7 @@ export default {
     let canClick = true;
     let questionCounter = ref(0);
     let score = ref(0);
-    let timer = 300
+    let timer = 180
     let minuteTime = ref("")
     let secondTime = ref("")
     const answer = ref("")
@@ -153,13 +153,13 @@ export default {
     const clearSelected = (divSelected) => {
       
       divSelected.classList.add("option-default");
-      divSelected.classList.remove("btn");
+      
      
 
       setTimeout(() => {
        
         loadQuestion();
-         divSelected.classList.add("btn");
+         divSelected.classList.remove("btn");
       }, 1000);
     };
     //methods/functions
@@ -177,15 +177,21 @@ export default {
         const optionID = item + 1;
         if (currentQuestion.value.answer == optionID) {
          //correct answer
+          divContainer.classList.add("btn")
           divContainer.classList.remove("option-default")
           score.value += 10;
           clearSelected(divContainer);
         } else {
           //Wrong answer
-          incorrectAnswer.value = true;
-          answer.value = currentQuestion.value.choices[currentQuestion.value.answer - 1]
-           
+          divContainer.classList.add("btn")
           divContainer.classList.remove("option-default")
+          percentageScore.value = (score.value / 100) * 40;
+          
+          incorrectAnswer.value = true;
+          
+          answer.value = currentQuestion.value.choices[currentQuestion.value.answer - 1]
+            
+          
         }
         canClick = false;
         //Todo go to next question 
@@ -257,7 +263,7 @@ export default {
     }
     const onQuizEnd = function () {
       //calculate the percentage
-      percentageScore.value = (score.value / 100) * 100;
+      percentageScore.value = (score.value / 100) * 40;
 
       //stop the Timer
       timer = 0;
