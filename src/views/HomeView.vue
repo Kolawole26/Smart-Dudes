@@ -55,7 +55,7 @@ import { mapActions } from 'vuex';
               <img src="../assets/images/Smart.svg" alt="smart logo" class=" mb-7 pt-4 mx-auto md:w-64 md:h-64 w-32 h-32">
            
             <h3  class=" font-bold md:text-4xl text-lg text-white mb-24">Choose Category to play</h3>
-            <div class=" lg:flex justify-between ">
+            <div class=" lg:flex justify-between max-w-screen-2xl mx-auto ">
               
               <div @click="shareData" class="bg-white rounded-2xl md:px-24 px-10 text-center btn pt-10 pb-2 mb-10 lg:mb-0 ">
                   
