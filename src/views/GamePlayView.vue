@@ -20,7 +20,7 @@
         />
       </router-link>
     </div>
-    <div class="pt-4 flex justify-end relative lg:right-48 md:mb-20 mb-10">
+    <div ref="star" class="pt-4 flex justify-end relative lg:right-48 md:mb-20 mb-10">
       <div class="flex items-center">
         <img
           src="../assets/images/grade.svg"
@@ -141,6 +141,7 @@ export default {
     const mainQuestion = ref(null);
     const logo = ref(null);
     const mainOptions = ref(null);
+    const star = ref(null);
 
 
     const loadQuestion = () => {
@@ -287,7 +288,12 @@ export default {
     onMounted(() => {
       fetchQuestionsFromServer();
 
-
+anime({
+  targets: mainQuestion.value,
+  opacity: 1,
+  duration: 1000,
+  easing: 'easeInOutQuad',
+});
 
   anime({
   targets: logo.value,
@@ -295,6 +301,14 @@ export default {
   duration: 1000,
   easing: 'easeInOutQuad',
 });
+
+   gsap.from(star.value, {
+      delay: 0.9,
+      duration: 2,
+      ease: "back.out(1.7)",
+      x: 300,
+      autoAlpha: 0,
+    });
     gsap.from(mainOptions.value, {
       delay: 0.5,
       duration: 1,
@@ -324,6 +338,7 @@ export default {
       mainQuestion,
       logo,
       mainOptions,
+      star,
     };
   },
 

@@ -58,7 +58,7 @@ import gsap from 'gsap';
 
     // Animate the box using GSAP
     gsap.from(des, {
-      delay: 0.5,
+      delay: 0.9,
       duration: 2,
       ease: "back.out(1.7)",
       x: 300,
@@ -66,7 +66,7 @@ import gsap from 'gsap';
     });
 
     gsap.from(box, {
-      delay: 0.5,
+      delay: 2,
       duration: 2.5,
       ease: "back.out(1.7)",
       y: 50,
