@@ -5,11 +5,12 @@
   <GamePlay1 v-if="incorrectAnswer" :answer="answer " :percent="percentageScore"></GamePlay1>
   <GameEnd v-if="endofQuiz" :percent="percentageScore"></GameEnd>
   <div class="bg-pink lg:pb-28 pb-7 lg:px-24 px-9 ">
-    <div class="flex justify-between items-center pt-5">
+    <div class="flex justify-between items-center pt-5" ref="content">
       <img
         src="../assets/images/Smart.svg"
         alt="smart logo"
         class="md:w-32 md:h-32 w-16 h-16"
+        ref="logo"
       />
       <router-link to="/">
         <img
@@ -52,11 +53,12 @@
           md:mb-36
           mb-16
         "
+        ref="mainQuestion"
       >
         {{ formattedQuestion }}
       </p>
 
-      <div class="lg:grid grid-cols-2 gap-16 text-center">
+      <div class="lg:grid grid-cols-2 gap-16 text-center" ref="mainOptions">
         <div v-for="(choice, item) in currentQuestion.choices" :key="item">
           <div
             class="
@@ -107,6 +109,9 @@ import { onMounted, ref } from "vue";
 import GamePlay1 from "../components/GamePlay1.vue";
 import GameEnd from "../components/GameEnd.vue";
 import store from "../store";
+import gsap from 'gsap';
+import anime from 'animejs';
+
 export default {
 
 
@@ -132,6 +137,10 @@ export default {
     let percentageScore = ref(0);
 
     const questions = [];
+    const content = ref(null);
+    const mainQuestion = ref(null);
+    const logo = ref(null);
+    const mainOptions = ref(null);
 
 
     const loadQuestion = () => {
@@ -277,7 +286,22 @@ export default {
     //lifecycle hooks
     onMounted(() => {
       fetchQuestionsFromServer();
-       
+
+
+
+  anime({
+  targets: logo.value,
+  rotateY: '360deg',
+  duration: 1000,
+  easing: 'easeInOutQuad',
+});
+    gsap.from(mainOptions.value, {
+      delay: 0.5,
+      duration: 1,
+      ease: "back.out(1.7)",
+      y: +100,
+      autoAlpha: 0,
+    });   
 
     });
     //return
@@ -297,7 +321,9 @@ export default {
       loadQuestion,
       onOptionClicked,
       onQuizEnd,
-    
+      mainQuestion,
+      logo,
+      mainOptions,
     };
   },
 
